@@ -3,7 +3,7 @@ var axios = require("axios");
 
 export default async function downloadAndZipImagesFromUrls(urls) {
     var ret = await axios.post(
-        'http://localhost:9000/imgur/download-from-urls',
+        'http://evening-sea-72051.herokuapp.com/imgur/download-from-urls',
         {
             urls: urls
         },

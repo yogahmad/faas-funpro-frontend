@@ -109,7 +109,7 @@ export function FileZipper() {
             formData.append(getPath(file.index), file.file);
         }
         var ret = await axios.post(
-            'http://localhost:9000/zip-files',
+            'http://evening-sea-72051.herokuapp.com/zip-files',
             formData,
         )
 
