@@ -4,10 +4,8 @@ import {
     DocumentIcon,
     FolderIcon,
 } from '@heroicons/react/solid'
-import { file } from 'jszip';
-import { saveAs } from 'file-saver';
-
-var JSZip = require("jszip");
+import axios from 'axios';
+import { save } from 'save-file'
 
 export function FileZipper() {
     const [showModal, setShowModal] = useState(false);
@@ -105,17 +103,18 @@ export function FileZipper() {
         return getPath(parentFolder[index]) + "/" + fileDatas[index].name
     }
 
-    function zipFiles() {
-        var zip = new JSZip();
+    async function zipFiles() {
+        var formData = new FormData();
         for (const file of fileDatas) {
-            if (file.type == "folder") continue;
-            zip.file(getPath(file.index), file.file)
+            formData.append(getPath(file.index), file.file);
         }
-        zip.generateAsync({
-            type: 'blob'
-        }).then(function (content) {
-            saveAs(content, "files");
-        });
+        var ret = await axios.post(
+            'http://localhost:9000/zip-files',
+            formData,
+        )
+
+        const buffer = Buffer.from(ret.data)
+        save(buffer, "files.zip")
     }
 
 

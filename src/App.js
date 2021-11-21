@@ -1,11 +1,11 @@
-import { ImgurAlbumDownloader } from './pages/ImgurAlbumDownloader.js';
+import { ImgurAlbumDownloader } from './pages/ImgurAlbumDownloader';
 import {
   BrowserRouter as Router,
   Routes,
   Route,
 } from "react-router-dom";
 import { HomePage } from './pages/HomePage.js';
-import { FileZipper } from './pages/FileZipper.js';
+import { FileZipper } from './pages/FileZipper';
 import { FileUnzipper } from './pages/FileUnzipper.js';
 
 

@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { saveAs } from 'file-saver';
-import { unzipFile } from '../functions/unzipFile';
 import '../index.css';
 import {
     DocumentIcon,
     FolderIcon,
 } from '@heroicons/react/solid'
+import axios from 'axios';
+import { save } from 'save-file'
+
 
 export function FileUnzipper() {
     const [activeFile, setActiveFile] = useState(null)
@@ -23,7 +24,6 @@ export function FileUnzipper() {
 
     function handleChangeFile(event) {
         if (event.target.files.length == 0) return
-        console.log(event.target.files[0])
         setActiveFile(event.target.files[0])
     }
 
@@ -32,11 +32,10 @@ export function FileUnzipper() {
     }
 
     async function handleUnzipFile() {
-        var ret = await unzipFile(activeFile)
-        var fileInformation = ret[0]
-        for (var i = 0; i < fileInformation.length; i++) {
-            fileInformation[i].file = ret[1][i]
-        }
+        var formData = new FormData();
+        formData.append("file", activeFile);
+        var ret = await axios.post('http://localhost:9000/unzip-file', formData,)
+        var fileInformation = ret.data
         fileInformation.forEach(data => {
             var path = getFilePath(data.path)
             var currentFolder = 0
@@ -55,6 +54,8 @@ export function FileUnzipper() {
                 addFileDatas.push(index[1])
             }
         })
+
+
         setFileDatas([...fileDatas, ...addFileDatas])
         setParentFolder([...parentFolder, ...addParentFolder])
         while (addParentFolder.length > 0)
@@ -155,10 +156,9 @@ function Folder({
         return ret
     }
 
-    function downloadFile(index) {
-        console.log(fileDatas[index].file)
-        // console.log((new Blob(fileDatas[index].file)) instanceof Blob)
-        saveAs(fileDatas[index].file, fileDatas[index].name)
+    async function downloadFile(index) {
+        const buffer = Buffer.from(fileDatas[index].file.data)
+        save(buffer, fileDatas[index].name)
     }
 
     return (

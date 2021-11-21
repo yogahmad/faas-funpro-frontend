@@ -25,7 +25,7 @@ export function ImgurAlbumDownloader() {
     async function download() {
 
         setIsDownloadImageLoading(true)
-        downloadAndZipImagesFromUrls(imageUrls)
+        await downloadAndZipImagesFromUrls(imageUrls)
         setIsDownloadImageLoading(false)
     }
 
