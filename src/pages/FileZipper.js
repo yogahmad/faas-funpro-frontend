@@ -109,7 +109,7 @@ export function FileZipper() {
             formData.append(getPath(file.index), file.file);
         }
         var ret = await axios.post(
-            'http://funpro-backend.herokuapp.com/zip-files',
+            'https://funpro-backend.herokuapp.com/zip-files',
             formData,
         )
 

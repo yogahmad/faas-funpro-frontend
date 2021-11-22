@@ -34,7 +34,7 @@ export function FileUnzipper() {
     async function handleUnzipFile() {
         var formData = new FormData();
         formData.append("file", activeFile);
-        var ret = await axios.post('http://funpro-backend.herokuapp.com/unzip-file', formData,)
+        var ret = await axios.post('https://funpro-backend.herokuapp.com/unzip-file', formData,)
         var fileInformation = ret.data
         fileInformation.forEach(data => {
             var path = getFilePath(data.path)
